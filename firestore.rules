@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return (request.auth != null && request.auth.uid == userId) || (userId is string && userId.size() > 0 && userId.size() <= 128);
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // User profile documents
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      // User saved recipes subcollection
+      match /savedRecipes/{recipeId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // User ingredient search history subcollection
+      match /searchHistory/{historyId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // Public / shared recipes
+    match /recipes/{recipeId} {
+      allow read: if true;
+      allow write: if isSignedIn() || request.auth == null;
+    }
+  }
+}

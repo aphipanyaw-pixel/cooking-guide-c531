@@ -1,0 +1,64 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile information and preferences",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "username": { "type": "string" },
+        "name": { "type": "string" },
+        "avatarUrl": { "type": "string" },
+        "bio": { "type": "string" },
+        "favoriteDish": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "username"]
+    },
+    "SavedRecipe": {
+      "title": "SavedRecipe",
+      "description": "Recipe bookmarked by the user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "recipeId": { "type": "string" },
+        "name": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "savedAt": { "type": "string" },
+        "cookingTime": { "type": "string" },
+        "difficulty": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["recipeId", "name", "userId"]
+    },
+    "SearchHistory": {
+      "title": "SearchHistory",
+      "description": "Ingredient search history of the user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "ingredients": { "type": "array" },
+        "topRecipeName": { "type": "string" },
+        "recipeCount": { "type": "number" },
+        "userId": { "type": "string" }
+      },
+      "required": ["ingredients", "userId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Stores user profile and account information"
+    },
+    "/users/{userId}/savedRecipes/{recipeId}": {
+      "schema": { "$ref": "#/entities/SavedRecipe" },
+      "description": "Stores recipes saved to the user profile"
+    },
+    "/users/{userId}/searchHistory/{historyId}": {
+      "schema": { "$ref": "#/entities/SearchHistory" },
+      "description": "Stores past ingredient searches and recommendations"
+    }
+  }
+}

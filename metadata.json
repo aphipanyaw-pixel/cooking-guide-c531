@@ -1,0 +1,11 @@
+{
+  "name": "Cooking Guide – เว็บไซต์ช่วยแนะนำและสอนทำอาหาร",
+  "description": "ค้นหาเมนูอาหารจากวัตถุดิบที่มี พร้อมถ่ายภาพวิเคราะห์วัตถุดิบด้วย AI และสอนทำอาหารทีละขั้นตอน",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
+
